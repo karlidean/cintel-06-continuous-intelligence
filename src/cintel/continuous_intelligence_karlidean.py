@@ -65,7 +65,7 @@ ROOT_DIR: Final[Path] = Path.cwd()
 DATA_DIR: Final[Path] = ROOT_DIR / "data"
 ARTIFACTS_DIR: Final[Path] = ROOT_DIR / "artifacts"
 
-DATA_FILE: Final[Path] = DATA_DIR / "system_metrics_case.csv"
+DATA_FILE: Final[Path] = DATA_DIR / "UMSL_volleyball_since_2013.csv"
 OUTPUT_FILE: Final[Path] = ARTIFACTS_DIR / "system_assessment_karlidean.csv"
 
 # === DEFINE THRESHOLDS ===
@@ -73,8 +73,8 @@ OUTPUT_FILE: Final[Path] = ARTIFACTS_DIR / "system_assessment_karlidean.csv"
 # Analysts need to know their data and
 # choose thresholds that make sense for their specific use case.
 
-MAX_ERROR_RATE: Final[float] = 0.05
-MAX_AVG_LATENCY: Final[float] = 40.0
+MAX_ATTACK_ERROR_RATE: Final[float] = 0.20
+MAX_ATTEMPTS_PER_KILL: Final[float] = 4.0
 
 # === DEFINE THE MAIN FUNCTION ===
 
@@ -116,9 +116,14 @@ def main() -> None:
 
     df = df.with_columns(
         [
-            (pl.col("errors") / pl.col("requests")).alias("error_rate"),
-            (pl.col("total_latency_ms") / pl.col("requests")).alias("avg_latency_ms"),
-            (1 - (pl.col("errors") / pl.col("requests"))).alias("success_rate"),
+            (pl.col("E") / pl.col("TA")).alias("attack_error_rate"),
+            (
+                pl.when(pl.col("K") > 0)
+                .then(pl.col("TA") / pl.col("K"))
+                .otherwise(None)
+                .alias("attempts_per_kill")
+            ),
+            (1 - (pl.col("E") / pl.col("TA"))).alias("attack_success_rate"),
         ]
     )
 
@@ -131,12 +136,12 @@ def main() -> None:
     LOG.info("STEP 3. Checking for anomalies in system signals...")
 
     anomalies_df = df.filter(
-        (pl.col("error_rate") > MAX_ERROR_RATE)
-        | (pl.col("avg_latency_ms") > MAX_AVG_LATENCY)
+        (pl.col("attack_error_rate") > MAX_ATTACK_ERROR_RATE)
+        | (pl.col("attempts_per_kill") > MAX_ATTEMPTS_PER_KILL)
     )
     LOG.info(
-        f"STEP 3. Using thresholds: MAX_ERROR_RATE={MAX_ERROR_RATE}, "
-        f"MAX_AVG_LATENCY={MAX_AVG_LATENCY}"
+        f"STEP 3. Using thresholds: MAX_ATTACK_ERROR_RATE={MAX_ATTACK_ERROR_RATE}, "
+        f"MAX_ATTEMPTS_PER_KILL={MAX_ATTEMPTS_PER_KILL}"
     )
 
     LOG.info(f"STEP 3. Anomalies detected: {anomalies_df.height}")
@@ -158,24 +163,32 @@ def main() -> None:
 
     LOG.info("STEP 4. Summarizing system state from monitored signals...")
 
-    summary_df = df.select(
+    summary_df = df.group_by("Player").agg(
         [
-            pl.col("requests").mean().alias("avg_requests"),
-            pl.col("errors").mean().alias("avg_errors"),
-            pl.col("error_rate").mean().alias("avg_error_rate"),
-            pl.col("avg_latency_ms").mean().alias("avg_latency_ms"),
-            pl.col("success_rate").mean().alias("avg_success_rate"),
+            pl.col("TA").sum().alias("total_attack_attempts"),
+            pl.col("E").sum().alias("total_attack_errors"),
+            pl.col("K").sum().alias("total_kills"),
+            (pl.col("E").sum() / pl.col("TA").sum()).alias("avg_attack_error_rate"),
+            (
+                pl.when(pl.col("K").sum() > 0)
+                .then(pl.col("TA").sum() / pl.col("K").sum())
+                .otherwise(None)
+                .alias("avg_attempts_per_kill")
+            ),
+            (1 - (pl.col("E").sum() / pl.col("TA").sum())).alias(
+                "avg_attack_success_rate"
+            ),
         ]
     )
 
     # Add a simple assessment label
     summary_df = summary_df.with_columns(
         pl.when(
-            (pl.col("avg_error_rate") > MAX_ERROR_RATE)
-            | (pl.col("avg_latency_ms") > MAX_AVG_LATENCY)
+            (pl.col("avg_attack_error_rate") > MAX_ATTACK_ERROR_RATE)
+            | (pl.col("avg_attempts_per_kill") > MAX_ATTEMPTS_PER_KILL)
         )
-        .then(pl.lit("DEGRADED"))
-        .otherwise(pl.lit("STABLE"))
+        .then(pl.lit("WEAK ATTACKER"))
+        .otherwise(pl.lit("STRONG ATTACKER"))
         .alias("system_state")
     )
 

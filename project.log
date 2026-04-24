@@ -106,3 +106,57 @@
 2026-04-23 18:51:26 | INFO | P6 | Pipeline executed successfully!
 2026-04-23 18:51:26 | INFO | P6 | ========================
 2026-04-23 18:51:26 | INFO | P6 | END main()
+2026-04-23 19:22:29 | INFO | P6 | === RUN START ===
+2026-04-23 19:22:29 | INFO | P6 | project=CINTEL
+2026-04-23 19:22:29 | INFO | P6 | repo_dir=cintel-06-continuous-intelligence
+2026-04-23 19:22:29 | INFO | P6 | python=3.14.2
+2026-04-23 19:22:29 | INFO | P6 | os=Windows 11
+2026-04-23 19:22:29 | INFO | P6 | shell=powershell
+2026-04-23 19:22:29 | INFO | P6 | cwd=.
+2026-04-23 19:22:29 | INFO | P6 | github_actions=False
+2026-04-23 19:22:29 | INFO | P6 | ========================
+2026-04-23 19:22:29 | INFO | P6 | START main()
+2026-04-23 19:22:29 | INFO | P6 | ========================
+2026-04-23 19:22:29 | INFO | P6 | ROOT_DIR = .
+2026-04-23 19:22:29 | INFO | P6 | DATA_FILE = data\UMSL_volleyball_since_2013.csv
+2026-04-23 19:22:29 | INFO | P6 | OUTPUT_FILE = artifacts\system_assessment_karlidean.csv
+2026-04-23 19:22:29 | INFO | P6 | ARTIFACTS_DIR = artifacts
+2026-04-23 19:22:29 | INFO | P6 | STEP 1. Loaded 195 system records
+2026-04-23 19:22:29 | INFO | P6 | STEP 2. Designing signals from raw metrics...
+2026-04-23 19:22:29 | INFO | P6 | STEP 3. Checking for anomalies in system signals...
+2026-04-23 19:22:29 | INFO | P6 | STEP 3. Using thresholds: MAX_ATTACK_ERROR_RATE=0.2, MAX_ATTEMPTS_PER_KILL=4.0
+2026-04-23 19:22:29 | INFO | P6 | STEP 3. Anomalies detected: 61
+2026-04-23 19:22:29 | INFO | P6 | STEP 4. Summarizing system state from monitored signals...
+2026-04-23 19:22:29 | INFO | P6 | STEP 4. System assessment completed
+2026-04-23 19:22:29 | INFO | P6 | STEP 5. Wrote system assessment file: C:\Repos\cintel-06-continuous-intelligence\artifacts\system_assessment_karlidean.csv
+2026-04-23 19:22:29 | INFO | P6 | ========================
+2026-04-23 19:22:29 | INFO | P6 | Pipeline executed successfully!
+2026-04-23 19:22:29 | INFO | P6 | ========================
+2026-04-23 19:22:29 | INFO | P6 | END main()
+2026-04-23 19:27:12 | INFO | P6 | === RUN START ===
+2026-04-23 19:27:12 | INFO | P6 | project=CINTEL
+2026-04-23 19:27:12 | INFO | P6 | repo_dir=cintel-06-continuous-intelligence
+2026-04-23 19:27:12 | INFO | P6 | python=3.14.2
+2026-04-23 19:27:12 | INFO | P6 | os=Windows 11
+2026-04-23 19:27:12 | INFO | P6 | shell=powershell
+2026-04-23 19:27:12 | INFO | P6 | cwd=.
+2026-04-23 19:27:12 | INFO | P6 | github_actions=False
+2026-04-23 19:27:12 | INFO | P6 | ========================
+2026-04-23 19:27:12 | INFO | P6 | START main()
+2026-04-23 19:27:12 | INFO | P6 | ========================
+2026-04-23 19:27:12 | INFO | P6 | ROOT_DIR = .
+2026-04-23 19:27:12 | INFO | P6 | DATA_FILE = data\UMSL_volleyball_since_2013.csv
+2026-04-23 19:27:12 | INFO | P6 | OUTPUT_FILE = artifacts\system_assessment_karlidean.csv
+2026-04-23 19:27:12 | INFO | P6 | ARTIFACTS_DIR = artifacts
+2026-04-23 19:27:12 | INFO | P6 | STEP 1. Loaded 195 system records
+2026-04-23 19:27:12 | INFO | P6 | STEP 2. Designing signals from raw metrics...
+2026-04-23 19:27:12 | INFO | P6 | STEP 3. Checking for anomalies in system signals...
+2026-04-23 19:27:12 | INFO | P6 | STEP 3. Using thresholds: MAX_ATTACK_ERROR_RATE=0.2, MAX_ATTEMPTS_PER_KILL=4.0
+2026-04-23 19:27:12 | INFO | P6 | STEP 3. Anomalies detected: 61
+2026-04-23 19:27:12 | INFO | P6 | STEP 4. Summarizing system state from monitored signals...
+2026-04-23 19:27:12 | INFO | P6 | STEP 4. System assessment completed
+2026-04-23 19:27:12 | INFO | P6 | STEP 5. Wrote system assessment file: C:\Repos\cintel-06-continuous-intelligence\artifacts\system_assessment_karlidean.csv
+2026-04-23 19:27:12 | INFO | P6 | ========================
+2026-04-23 19:27:12 | INFO | P6 | Pipeline executed successfully!
+2026-04-23 19:27:12 | INFO | P6 | ========================
+2026-04-23 19:27:12 | INFO | P6 | END main()
